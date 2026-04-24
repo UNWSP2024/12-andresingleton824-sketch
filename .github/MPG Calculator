@@ -1,0 +1,39 @@
+import tkinter as tk
+from tkinter import messagebox
+ 
+def calculate_mpg():
+    try:
+        gallons = float(entry_gallons.get())
+        miles = float(entry_miles.get())
+        if gallons <= 0:
+            messagebox.showerror("Error", "Gallons must be greater than zero.")
+            return
+        mpg = miles / gallons
+        label_result.config(text=f"Miles Per Gallon: {mpg:.2f} MPG")
+    except ValueError:
+        messagebox.showerror("Error", "Please enter valid numbers.")
+ 
+root = tk.Tk()
+root.title("MPG Calculator")
+root.geometry("350x220")
+root.resizable(False, False)
+ 
+tk.Label(root, text="MPG Calculator", font=("Helvetica", 16, "bold")).pack(pady=10)
+ 
+frame = tk.Frame(root)
+frame.pack(pady=5)
+ 
+tk.Label(frame, text="Gallons of Gas:", font=("Helvetica", 11)).grid(row=0, column=0, padx=10, pady=5, sticky="e")
+entry_gallons = tk.Entry(frame, width=15)
+entry_gallons.grid(row=0, column=1, pady=5)
+ 
+tk.Label(frame, text="Miles on Full Tank:", font=("Helvetica", 11)).grid(row=1, column=0, padx=10, pady=5, sticky="e")
+entry_miles = tk.Entry(frame, width=15)
+entry_miles.grid(row=1, column=1, pady=5)
+ 
+tk.Button(root, text="Calculate MPG", font=("Helvetica", 11), command=calculate_mpg).pack(pady=10)
+ 
+label_result = tk.Label(root, text="", font=("Helvetica", 12, "bold"), fg="blue")
+label_result.pack()
+ 
+root.mainloop()
