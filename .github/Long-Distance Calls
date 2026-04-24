@@ -1,0 +1,49 @@
+import tkinter as tk
+from tkinter import messagebox
+ 
+rates = {
+    "Daytime (6:00 AM - 5:59 PM)": 0.02,
+    "Evening (6:00 PM - 11:59 PM)": 0.12,
+    "Off-Peak (Midnight - 5:59 AM)": 0.05,
+}
+ 
+def calculate_charge():
+    try:
+        minutes = float(entry_minutes.get())
+        if minutes < 0:
+            messagebox.showerror("Error", "Minutes cannot be negative.")
+            return
+        rate = rates[rate_var.get()]
+        charge = minutes * rate
+        messagebox.showinfo("Call Charge", f"Rate: ${rate:.2f}/min\nMinutes: {minutes:.0f}\nTotal Charge: ${charge:.2f}")
+    except ValueError:
+        messagebox.showerror("Error", "Please enter a valid number of minutes.")
+ 
+root = tk.Tk()
+root.title("Long-Distance Call Calculator")
+root.geometry("340x260")
+root.resizable(False, False)
+ 
+tk.Label(root, text="Long-Distance Calls", font=("Helvetica", 16, "bold")).pack(pady=10)
+tk.Label(root, text="Select a rate category:", font=("Helvetica", 11)).pack()
+ 
+rate_var = tk.StringVar(value=list(rates.keys())[0])
+for label in rates:
+    tk.Radiobutton(
+        root,
+        text=label,
+        variable=rate_var,
+        value=label,
+        font=("Helvetica", 10),
+        anchor="w"
+    ).pack(fill="x", padx=20)
+ 
+frame = tk.Frame(root)
+frame.pack(pady=10)
+tk.Label(frame, text="Number of Minutes:", font=("Helvetica", 11)).grid(row=0, column=0, padx=5)
+entry_minutes = tk.Entry(frame, width=10)
+entry_minutes.grid(row=0, column=1)
+ 
+tk.Button(root, text="Calculate Charge", font=("Helvetica", 11), command=calculate_charge).pack(pady=8)
+ 
+root.mainloop()
